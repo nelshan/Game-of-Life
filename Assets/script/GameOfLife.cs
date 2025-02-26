@@ -8,7 +8,7 @@ public class GameOfLife : MonoBehaviour
     public int width = 192;  
     public int height = 108; 
     public GameObject cellPrefab;
-    public int poolSize = 5000;  // Object pool size for optimization
+    public int poolSize = 5000;  // Object pool size
 
     private Cell[,] grid;
     private bool[,] nextGen;
@@ -33,6 +33,11 @@ public class GameOfLife : MonoBehaviour
 
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            RestartGame();
+        }
+
         // Display current generation and population count
         if (infoText != null)
         {
@@ -64,7 +69,7 @@ public class GameOfLife : MonoBehaviour
         }
         else
         {
-            // If pool is exhausted, we create a new one (should not happen if pool size is sufficient)
+            // If pool is exhausted, it create a new one (should not happen if pool size is sufficient)
             Debug.LogWarning("Pool exhausted, instantiating a new cell.");
             GameObject newCellObj = Instantiate(cellPrefab);
             Cell newCell = newCellObj.GetComponent<Cell>();
@@ -170,6 +175,35 @@ public class GameOfLife : MonoBehaviour
                 }
             }
         }
+    }
+
+    void RestartGame()
+    {
+        // Cancel the current update loop
+        CancelInvoke(nameof(GameOfLifeUpdateGame));
+
+        // Return all active cells to the pool
+        for (int x = 0; x < width; x++)
+        {
+            for (int y = 0; y < height; y++)
+            {
+                if (grid[x, y] != null)
+                {
+                    ReturnCellToPool(grid[x, y]);
+                    grid[x, y] = null;
+                }
+            }
+        }
+
+        // Reset counters
+        generationCount = 0;
+        currentPopulation = 0;
+
+        // Reinitialize the grid with a new random seed
+        InitializeGrid();
+
+        // Restart the simulation loop
+        InvokeRepeating(nameof(GameOfLifeUpdateGame), TimeInterval, TimeInterval);
     }
 
     // Returns the current generation count
