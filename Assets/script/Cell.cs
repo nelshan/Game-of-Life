@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Cell : MonoBehaviour
 {
-    public bool isAlive;
     private SpriteRenderer spriteRenderer;
 
     void Awake()
@@ -12,7 +11,6 @@ public class Cell : MonoBehaviour
 
     public void SetState(bool state)
     {
-        isAlive = state;
-        spriteRenderer.color = isAlive ? Color.white : Color.black;
+        spriteRenderer.color = state ? Color.white : Color.black;
     }
 }
