@@ -12,7 +12,7 @@ These rules produce emergent behavior, with patterns forming dynamically, includ
 # Computational Complexity
 The Game of Life belongs to the class of **Turing-complete** systems, meaning it can simulate a universal computational model. However, the performance of naïve implementations degrades exponentially with grid size due to the O(n²) complexity of neighbor counting for each tick. To put it simply, cell input rises with grid size, which in turn causes the computation time to rise.  
 
-**Note: if are increasing or decreasing the Width and Height of the grid, adjust the size of the Cell prefab.**
+**Note: if you are increasing or decreasing the Width and Height of the grid, adjust the size of the Cell prefab.**
 
 _(**O(n²)** (Big **O** notation) describes an **algorithm that scales quadratically** with input size. This means that as the input size **n** grows, the execution time increases proportionally to **n²** .)_
 
